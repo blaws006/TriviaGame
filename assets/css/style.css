@@ -1,0 +1,60 @@
+/* GENERAL STYLINGS*/
+
+body {	
+	background: url("../images/gaming-pattern.png");
+}
+
+/* HEADER STYLINGS */
+
+.headerWrapper {
+	margin: 0 auto;
+	background-color: #ffffff;
+	padding: 15px;
+		width: 100%;
+}
+
+#header { 
+   margin: 0 auto;
+	max-width: 475px;
+	background-color: #4aaaa5;
+	padding: 20px;
+	color: #fff;
+ }
+
+ /* GAME SECTION STYLINGS */
+
+ #gameSectionContainer {
+	margin: 10px auto;
+	width: 100%;
+	background-color: #ffffff;
+	border: 5px solid #4aaaa5;
+ }
+
+#game-wrapper{
+  
+  border: 3px solid #5E7F7E;
+}
+
+
+.gameSection {
+  margin: 0 auto;
+
+  padding: 20px;
+  
+}
+
+.cta {
+  
+  padding: 15px;
+}
+
+.button-style {
+  background-color: #4aaaa5;
+  border: 1px solid #5E7F7E;
+  
+}
+
+.button-style:hover {
+  
+  background-color: #5E7F7E;
+}
