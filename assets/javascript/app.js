@@ -26,68 +26,131 @@ $(document).ready(function(){
   var questionCount = 0;
   var time = 90;
   var intervalId;
-  var userAnswer = [];
+  var userAnswer;
   var questionOne = ["This Kendrick Lamar album was added to the Harvard University's Hiphop Archive", "To Pimp a Butterfly", "DAMN.", "Section .80", "Good Kid mAAd City"]
   var questionTwo = ["Izuku Midoriya a high school protagonist with 'Quirks' in what anime?", "Fullmetal Alchemist", "My Hero Acedamia", "Attack on Titan", "Kill La Kill"]
-  var questionThreee = ["T'Challa, the king of Wankanda is also known as what superhero?", "Kazar", "Iron Fist", "Sub-Mariner", "Black Panther"]
+  var questionThree = ["T'Challa, the king of Wankanda is also known as what superhero?", "Kazar", "Iron Fist", "Sub-Mariner", "Black Panther"]
   var questionFour = ["Which NFL linebacker debut as a professional wrestler in 2004?", "Junior Seau", "Mike Ditka", "Brian Urlacher", "Ray Lewis"]
   var questionFive = ["What Stephen King clown-based novel was made into a movie",  "Dark Tower", "IT", "The Shining", "Stand by Me"]
-  var allQuestions = [questionOne, questionTwo, questionThreee, questionFour, questionFive]
+  var allQuestions = [questionOne, questionTwo, questionThree, questionFour, questionFive]
   
-  
-  //Press play button
-  $("#press-start").click(play);
-  
-  
- $(".page-two").hide();
  
-  
+  $(".page-two").hide();
+  $(".page-three").hide();
+ 
+  //Press play button
+   $(".press-start").click(play);
   
   // When the game starts...Bring up the first question and start the timer
-  
+   //This timer will start and be the user has 90 seconds to answer the question
   function play(){
-      timer();
-  
-     $(".page-one").hide();
+      right = 0;
+      wrong = 0;
+      questionCount = 0;
+      time = 90;
       $(".page-two").show();
-    question();
+      $(".page-one").hide();
+      $(".page-three").hide();
+      question();
+      timer();
   }
-  
+  //Questions in order  
 function question(){
   
+    if (questionCount === 5) {
+    
+     $(".page-two").hide();
+      $(".page-one").hide();
+      $(".page-three").show();
+      results();
+      stop();
+      time = 0;
+  }
+  
+  else {
   $("#question").html(allQuestions[questionCount][0])
   $("#answer-one").html(allQuestions[questionCount][1])
   $("#answer-two").html(allQuestions[questionCount][2])
   $("#answer-three").html(allQuestions[questionCount][3])
   $("#answer-four").html(allQuestions[questionCount][4])
+    
+    if (questionCount === 0){
+    
+    $("#answer-one").addClass('truth')
+  }
+    
+    else{
+    
+    $("div").removeClass('truth');
+  }
+  
+  }
+  
+  
+  
   
 }
   
-  //This timer will start and be the user has 90 seconds to answer the question
   
   
-$("#answer-one, #answer-two, #answer-three, #answer-four").on("click", function(){
+
+$(".answer").click( function(event){
     
-    var userAnswerOne = 1;
-    var userAnswerTwo = 2;
-    var userAnswerThree = 3;
-    var userAnswerFour = 4;
-    
-    if(questionCount === 0 && userAnswerOne){
+  
+  console.log(this.id)
+//    var answerKey = [questionOne[1], questionTwo[2], questionThree[4], questionFour[3], questionFive[2]]
+//  
+    if (questionCount === 0 && this.id === "answer-one") {
       right++;
       questionCount++;
-    
-      console.log("correct")
+      question();
+       stop();
+       timer();
+      alert("correct")
     } 
-    
+  
+    else if (questionCount === 1 && this.id === "answer-two") {
+      right++;
+      questionCount++;
+      question();
+      alert("correct")
+    } 
+     
+    else if (questionCount === 2 && this.id === "answer-four") {
+      right++;
+      questionCount++;
+      question();
+      alert("correct")
+    } 
+  else if (questionCount === 3 && this.id === "answer-three") {
+      right++;
+      questionCount++;
+      question();
+      alert("correct")
+    } 
+  else if (questionCount === 4 && this.id === "answer-two") {
+      right++;
+      questionCount++;
+      question();
+      
+      alert("correct")
+    } 
+//  
     else {
       wrong++;
       questionCount++;
-      console.log(userAnswer)
+      question();
+      alert("incorrect")
       
     }
+
   });
   
+  
+  function results(){
+    $("#right").html(right);
+    $("#wrong").html(wrong);
+  }
   
   function timer(){
     
