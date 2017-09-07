@@ -28,16 +28,17 @@ $(document).ready(function(){
   var intervalId;
   var userAnswer;
   var questionOne = ["This Kendrick Lamar album was added to the Harvard University's Hiphop Archive", "To Pimp a Butterfly", "DAMN.", "Section .80", "Good Kid mAAd City"]
-  var questionTwo = ["Izuku Midoriya a high school protagonist with 'Quirks' in what anime?", "Fullmetal Alchemist", "My Hero Acedamia", "Attack on Titan", "Kill La Kill"]
+  var questionTwo = ["Izuku Midoriya is a high school protagonist with 'Quirks' in what anime?", "Fullmetal Alchemist", "My Hero Acedamia", "Attack on Titan", "Kill La Kill"]
   var questionThree = ["T'Challa, the king of Wankanda is also known as what superhero?", "Kazar", "Iron Fist", "Sub-Mariner", "Black Panther"]
-  var questionFour = ["Which NFL linebacker debut as a professional wrestler in 2004?", "Junior Seau", "Mike Ditka", "Brian Urlacher", "Ray Lewis"]
+  var questionFour = ["Lambeau Field is home to which NFL team?", "New Orleans Saints", "New York Giants", "Green Bay Packers", "Buffalo Bills"]
   var questionFive = ["What Stephen King clown-based novel was made into a movie",  "Dark Tower", "IT", "The Shining", "Stand by Me"]
   var allQuestions = [questionOne, questionTwo, questionThree, questionFour, questionFive]
-  
- 
+  var answerKey = ["To Pimp a Butterfly", "My Hero Acedamia", "Black Panther", "Green Bay Packers", "IT"]
+  var images = ["assets/images/Kendrick_Lamar.gif", "assets/images/Izuku.gif", "assets/images/Black_Panther.gif", "assets/images/GB.gif", "assets/images/IT.gif"]  
+  var correct = false;
   $(".page-two").hide();
   $(".page-three").hide();
- 
+  $(".answer-page").hide();
   //Press play button
    $(".press-start").click(play);
   
@@ -51,8 +52,9 @@ $(document).ready(function(){
       $(".page-two").show();
       $(".page-one").hide();
       $(".page-three").hide();
+      $(".answer-page").hide();
       question();
-      timer();
+     
   }
   //Questions in order  
 function question(){
@@ -62,6 +64,7 @@ function question(){
      $(".page-two").hide();
       $(".page-one").hide();
       $(".page-three").show();
+      $(".answer-page").hide();
       results();
       stop();
       time = 0;
@@ -73,26 +76,16 @@ function question(){
   $("#answer-two").html(allQuestions[questionCount][2])
   $("#answer-three").html(allQuestions[questionCount][3])
   $("#answer-four").html(allQuestions[questionCount][4])
-    
-    if (questionCount === 0){
-    
-    $("#answer-one").addClass('truth')
-  }
-    
-    else{
-    
-    $("div").removeClass('truth');
-  }
-  
-  }
-  
-  
-  
+   $(".page-two").show();
+      $(".page-one").hide();
+      $(".page-three").hide();
+      $(".answer-page").hide();
+     reset();
+       timer();   
+  }  
   
 }
-  
-  
-  
+    
 
 $(".answer").click( function(event){
     
@@ -102,46 +95,54 @@ $(".answer").click( function(event){
 //  
     if (questionCount === 0 && this.id === "answer-one") {
       right++;
-      questionCount++;
-      question();
+      correct = true;
+      rightOrWrong();
+     setTimeout(question, 5000);
+      setTimeout(function(){questionCount++}, 4000)
        stop();
-       timer();
-      alert("correct")
     } 
   
     else if (questionCount === 1 && this.id === "answer-two") {
       right++;
-      questionCount++;
-      question();
-      alert("correct")
+      correct = true;
+      rightOrWrong();
+      setTimeout(question, 5000);
+      setTimeout(function(){questionCount++}, 4000)
+      stop();
     } 
      
     else if (questionCount === 2 && this.id === "answer-four") {
       right++;
-      questionCount++;
-      question();
-      alert("correct")
+      correct = true;
+      rightOrWrong()
+      setTimeout(question, 5000);
+      setTimeout(function(){questionCount++}, 4000)
+      stop();
     } 
   else if (questionCount === 3 && this.id === "answer-three") {
       right++;
-      questionCount++;
-      question();
-      alert("correct")
+    rightOrWrong();
+    correct = true;
+      setTimeout(question, 5000);
+    setTimeout(function(){questionCount++}, 4000)
+    stop();
     } 
   else if (questionCount === 4 && this.id === "answer-two") {
       right++;
-      questionCount++;
-      question();
-      
-      alert("correct")
+    rightOrWrong();
+    correct = true;
+      setTimeout(question, 5000);
+    setTimeout(function(){questionCount++}, 4000)
+    stop();
     } 
 //  
     else {
-      wrong++;
-      questionCount++;
-      question();
-      alert("incorrect")
-      
+        correct = false;
+        wrong++;
+      rightOrWrong();
+      setTimeout(question, 5000);
+      setTimeout(function(){questionCount++}, 4000)
+      stop();
     }
 
   });
@@ -164,14 +165,50 @@ $(".answer").click( function(event){
     $("#time").html(time);
     
     if(time === 0){
-      
+      wrong++;
+      rightOrWrong();
+      setTimeout(question, 5000);
+      setTimeout(function(){questionCount++}, 4000)
       stop();
     }
     
   }
+  function rightOrWrong(){
+    
+    if (correct === true) { 
+      $("#result").html("Right!")
+      $("#answerKey").html(answerKey[questionCount])
+      $("#image").html("<img src='" + images[questionCount] + "'>")
+      $(".page-two").hide();
+      $(".page-one").hide();
+      $(".page-three").hide();
+      $(".answer-page").show();
+      
+    }
+    
+    
+    else {
+       $("#result").html("Wrong!");
+      $("#answerKey").html(answerKey[questionCount]);
+       $("#image").html("<img src='" + images[questionCount] + "'>")
+       $(".page-two").hide();
+      $(".page-one").hide();
+      $(".page-three").hide();
+      $(".answer-page").show();
+     
+    }
+  }
+  
+  
   function stop(){
     
     clearInterval(intervalId);
+  }
+  
+  function reset() {
+    time = 90;
+    $("#time").html(time)
+    
   }
 
 });
