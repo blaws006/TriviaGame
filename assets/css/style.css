@@ -58,3 +58,54 @@ body {
   
   background-color: #5E7F7E;
 }
+
+
+/*********
+QUESTION/ANSWER PAGE & PRESS START PAGE
+**********/
+  .page-one,.page-two,.page-three,.answer-page {
+  
+  padding-top: 10px;
+  padding-bottom: 10px;
+  
+}
+
+.page-two {
+  
+ font-size: 1.2em;
+}
+
+#question{
+
+  margin: 20px 0;
+  
+}
+ #answer-one,#answer-two, #answer-three, #answer-four{
+  
+  margin: 10px 0;
+  
+}
+
+#answer-one:hover,#answer-two:hover, #answer-three:hover, #answer-four:hover {
+  background-color:  #4aaaa5;
+  color: #ffffff;
+  
+}
+
+
+/*************
+RIGHT/WRONG PAGE
+**************/
+
+#image img {
+  
+  max-width: 350px;
+}
+
+/*************
+RESULTS PAGE
+**************/
+
+.page-three {
+  font-size: 1.2em;
+}
