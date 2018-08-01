@@ -18,7 +18,7 @@ $(document).ready(function(){
   var userAnswer;
   var questionOne = ["This Kendrick Lamar album was one of the first albums to be added to Harvard University's Hiphop Archive", "To Pimp a Butterfly", "DAMN.", "Section .80", "Good Kid mAAd City"]
   var questionTwo = ["Izuku Midoriya is a high school protagonist with 'Quirks' in what anime?", "Fullmetal Alchemist", "My Hero Acedamia", "Attack on Titan", "Kill La Kill"]
-  var questionThree = ["T'Challa, the king of Wankanda is also known as what superhero?", "Kazar", "Iron Fist", "Sub-Mariner", "Black Panther"]
+  var questionThree = ["T'Challa, the king of Wankanda, is also known as what superhero?", "Kazar", "Iron Fist", "Sub-Mariner", "Black Panther"]
   var questionFour = ["Lambeau Field is home to which NFL team?", "New Orleans Saints", "New York Giants", "Green Bay Packers", "Buffalo Bills"]
   var questionFive = ["What Stephen King clown-based novel was made into a movie",  "Dark Tower", "IT", "The Shining", "Stand by Me"]
   var allQuestions = [questionOne, questionTwo, questionThree, questionFour, questionFive]
