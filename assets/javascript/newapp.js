@@ -92,12 +92,23 @@ const UIController = (() => {
     },
     displayQuestions: () => {
       const startPage = document.querySelector(DOMstrings.gameSection);
-      const triviaPage = startPage.innerHTML = `<div class="page-two"><div class="text-center"><h4>Time Remaining: <span class="time">0:00</span></h4><hr></div><div><div class="text-center" id="question"><p></p></div></div><div class="text-center"><div class="row"><div class=" answer col-md-12"></div></div><div class="row"><div class="answer col-md-12"></div></div><div class="row"><div class="answer col-md-12"></div></div><div class="row"><div class="answer col-md-12"></div></div></div></div>`;
+      const triviaPage = startPage.innerHTML = `<div class="page-two"><div class="text-center"><h4>Time Remaining: <span class="time">90</span></h4><hr></div><div><div class="text-center" id="question"><p></p></div></div><div class="text-center"><div class="row"><div class=" answer col-md-12"></div></div><div class="row"><div class="answer col-md-12"></div></div><div class="row"><div class="answer col-md-12"></div></div><div class="row"><div class="answer col-md-12"></div></div></div></div>`;
       return triviaPage;
     },
-    displayTime: () => {
-
+    displayTime: (time) => {
+      let count = time;
     },
+    countDown: (count) => {
+      setInterval(() => {
+        count--;
+        document.querySelector(DOMstrings.time).textContent = count;
+      }, 1000)
+    },
+    stopTime: (time, timer) => {
+      if (time = 0) {
+        clearInterval(timer)
+      }
+    }
   }
   // Display trivia pages
   // Display right/wrong answer page
@@ -120,6 +131,9 @@ const appController = ((triviaCtrl, UICtrl) => {
     const DOM = UICtrl.getDOMstrings();
     document.querySelector(DOM.startButton).addEventListener('click', () => {
       UICtrl.displayQuestions();
+      let time = UICtrl.displayTime(2);
+      let timer = UICtrl.countDown(2);
+      UICtrl.stopTime(time, timer);
     });
   };
   return {
