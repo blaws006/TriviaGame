@@ -10,6 +10,7 @@
 // Let's write this in ES6 and convert everything to the modular pattern!
 
 // Trivia Controller
+
 const triviaController = (() => {
 
   return {
@@ -67,7 +68,7 @@ const triviaController = (() => {
       ]);
 
       return questionFive;
-    },
+    }
   }
   // Map each answer
   // Hold right or wrong answer data
@@ -95,19 +96,8 @@ const UIController = (() => {
       const triviaPage = startPage.innerHTML = `<div class="page-two"><div class="text-center"><h4>Time Remaining: <span class="time">90</span></h4><hr></div><div><div class="text-center" id="question"><p></p></div></div><div class="text-center"><div class="row"><div class=" answer col-md-12"></div></div><div class="row"><div class="answer col-md-12"></div></div><div class="row"><div class="answer col-md-12"></div></div><div class="row"><div class="answer col-md-12"></div></div></div></div>`;
       return triviaPage;
     },
-    displayTime: (time) => {
-      let count = time;
-    },
-    countDown: (count) => {
-      setInterval(() => {
-        count--;
-        document.querySelector(DOMstrings.time).textContent = count;
-      }, 1000)
-    },
-    stopTime: (time, timer) => {
-      if (time = 0) {
-        clearInterval(timer)
-      }
+    displayTime: (clock) => {
+      document.querySelector(DOMstrings.time).textContent = clock;
     }
   }
   // Display trivia pages
@@ -119,6 +109,21 @@ const UIController = (() => {
 // App Controller
 
 const appController = ((triviaCtrl, UICtrl) => {
+  var count = 5;
+  var intervalID;
+
+  const getTime = () => {
+    count--;
+    UICtrl.displayTime(count);
+    evalTime();
+  };
+
+  const evalTime = () => {
+    if (count === 0) {
+      clearInterval(intervalID);
+      console.log(count);
+    }
+  };
 
   const getQNA = () => {
     console.log(triviaCtrl.setQuestionOne());
@@ -127,13 +132,12 @@ const appController = ((triviaCtrl, UICtrl) => {
     console.log(triviaCtrl.setQuestionFour());
     console.log(triviaCtrl.setQuestionFive());
   };
+
   const setupEventListeners = () => {
     const DOM = UICtrl.getDOMstrings();
     document.querySelector(DOM.startButton).addEventListener('click', () => {
       UICtrl.displayQuestions();
-      let time = UICtrl.displayTime(2);
-      let timer = UICtrl.countDown(2);
-      UICtrl.stopTime(time, timer);
+      intervalID = setInterval(getTime, 1000);
     });
   };
   return {
