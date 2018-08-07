@@ -109,8 +109,8 @@ const UIController = (() => {
 // App Controller
 
 const appController = ((triviaCtrl, UICtrl) => {
-  var count = 5;
-  var intervalID;
+  let count = 5;
+  let intervalID;
 
   const getTime = () => {
     count--;
