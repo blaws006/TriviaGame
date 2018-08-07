@@ -112,12 +112,14 @@ const appController = ((triviaCtrl, UICtrl) => {
   let count = 5;
   let intervalID;
 
+  // Will control the timer countdown element
   const getTime = () => {
     count--;
     UICtrl.displayTime(count);
     evalTime();
   };
 
+  // Will evaluate conditions on when to stop the clock
   const evalTime = () => {
     if (count === 0) {
       clearInterval(intervalID);
