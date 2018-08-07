@@ -62,8 +62,8 @@ const triviaController = (() => {
       const questionFive = new Map([
         [0, 'What Stephen King clown-based novel was made into a movie?'],
         [1, 'IT'],
-        [2, 'The Shining'],
-        [3, 'Green Bay Packers'],
+        [2, 'Dark Tower'],
+        [3, 'The Shining'],
         [4, 'Stand by Me']
       ]);
 
