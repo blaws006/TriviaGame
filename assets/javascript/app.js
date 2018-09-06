@@ -81,11 +81,13 @@ const UIController = (() => {
     getDOMstrings: () => {
       return DOMstrings;
     },
+    //Displays the main question page
     displayQuestions: () => {
       const startPage = document.querySelector(DOMstrings.gameSection);
       const triviaPage = startPage.innerHTML = `<div class="page-two"><div class="text-center"><h4>Time Remaining: <span class="time">90</span></h4><hr></div><div><div class="text-center" id="question"><p></p></div></div><div class="text-center"><div class="row"><div class=" answer col-md-12"></div></div><div class="row"><div class="answer col-md-12"></div></div><div class="row"><div class="answer col-md-12"></div></div><div class="row"><div class="answer col-md-12"></div></div></div></div>`;
       return triviaPage;
     },
+    // Displays the active clock
     displayTime: (clock) => {
       document.querySelector(DOMstrings.time).textContent = clock;
     }
