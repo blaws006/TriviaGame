@@ -14,6 +14,7 @@
 const triviaController = (() => {
 
   return {
+    // Map each answer
     setQuestions: () => {
       const questionOne = new Map([
         [0, 'This Kendrick Lamar album was one of the first albums to be added to Harvard University\'s Hiphop Archive'],
@@ -59,12 +60,12 @@ const triviaController = (() => {
       return questions;
     }
   }
-  // Map each answer
-  // Hold right or wrong answer data
 })();
 
 // UI Controller
 const UIController = (() => {
+
+  // Makes it easier to select an html element by creating a DOMstrings object and making key-value pairs out of classes and id's
   const DOMstrings = {
     startButton: '#press-start',
     answerOne: '.answer-one',
