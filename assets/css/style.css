@@ -39,8 +39,6 @@ body {
 
 .gameSection {
   margin: 0 auto;
-
-  padding: 20px;
   
 }
 
@@ -81,10 +79,7 @@ QUESTION/ANSWER PAGE & PRESS START PAGE
   margin: 20px 0;
   
 }
- .answer {
-  margin: 10px 0;
-  padding: 0;
-}
+
 
 .answer:hover {
   background-color:  #4aaaa5;
@@ -96,11 +91,21 @@ QUESTION/ANSWER PAGE & PRESS START PAGE
 /*************
 RIGHT/WRONG PAGE
 **************/
+ .answer-page {
+   margin: 10px 0;
+   padding: 0;
+ }
+
+.result, p, span {
+  text-align: center;
+}
+
 
 .image img {
-  
+  margin: 0 auto;
   max-width: 350px;
 }
+
 
 /*************
 RESULTS PAGE

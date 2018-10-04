@@ -16,12 +16,15 @@ const triviaController = (() => {
   return {
     // Map each answer
     setQuestions: () => {
+      
+    
       const questionOne = new Map([
         [0, 'This Kendrick Lamar album was one of the first albums to be added to Harvard University\'s Hiphop Archive'],
         [1, 'To Pimp a Butterfly'],
         [2, 'DAMN.'],
         [3, 'Section .80'],
-        [4, 'Good Kid mAAd City']
+        [4, 'Good Kid mAAd City'],
+        
       ]);
 
       const questionTwo = new Map([
@@ -29,7 +32,8 @@ const triviaController = (() => {
         [1, 'Fullmetal Alchemist'],
         [2, 'My Hero Acedamia'],
         [3, 'Attack on Titan'],
-        [4, 'Kill La Kill']
+        [4, 'Kill La Kill'],
+      
       ]);
 
       const questionThree = new Map([
@@ -37,7 +41,8 @@ const triviaController = (() => {
         [1, 'Kazar'],
         [2, 'Iron Fist'],
         [3, 'Sub-Mariner'],
-        [4, 'Black Panther']
+        [4, 'Black Panther'],
+        
       ]);
 
       const questionFour = new Map([
@@ -45,7 +50,8 @@ const triviaController = (() => {
         [1, 'New Orleans Saints'],
         [2, 'New York Giants'],
         [3, 'Green Bay Packers'],
-        [4, 'Buffalo Bills']
+        [4, 'Buffalo Bills'],
+       
       ]);
 
       const questionFive = new Map([
@@ -62,6 +68,12 @@ const triviaController = (() => {
     answerKey: () => {
       const answers = ['To Pimp a Butterfly', 'My Hero Acedamia', 'Black Panther', 'Green Bay Packers', 'IT'];
       return answers;
+    },
+
+    imageMap: () => {
+      const images = ['assets/images/Kendrick_Lamar.gif', 'assets/images/Izuku.gif', 'assets/images/Black_Panther.gif', 'assets/images/GB.gif', 'assets/images/IT.gif'
+      ];
+      return images;
     }
   }
 })();
@@ -75,7 +87,10 @@ const UIController = (() => {
     answer: '.answer',
     img: '.image',
     time: '.time',
-    gameSection: '#gameSectionContainer'
+    gameSection: '#gameSectionContainer',
+    answerKey: '.answerKey',
+    answerPage: '.answer-page',
+    image: '.image'
   }
 
   return {
@@ -84,15 +99,19 @@ const UIController = (() => {
     },
     //Displays the main question page
     displayQuestions: (question, answerOne, answerTwo, answerThree, answerFour) => {
-      const startPage = document.querySelector(DOMstrings.gameSection);
-      const triviaPage = startPage.innerHTML = `<div class="page-two"><div class="text-center"><h4>Time Remaining: <span class="time">90</span></h4><hr></div><div><div class="text-center" id="question"><p>${question}</p></div></div><div class="text-center"><div class="row"><div class="answer col-md-12">${answerOne}</div></div><div class="row"><div class="answer col-md-12">${answerTwo}</div></div><div class="row"><div class="answer col-md-12">${answerThree}</div></div><div class="row"><div class="answer col-md-12">${answerFour}</div></div></div></div>`;
+      const gamePage = document.querySelector(DOMstrings.gameSection);
+      const triviaPage = gamePage.innerHTML = `<div class="page-two"><div class="text-center"><h4>Time Remaining: <span class="time">90</span></h4><hr></div><div><div class="text-center" id="question"><p>${question}</p></div></div><div class="text-center"><div class="row"><div class="answer col-md-12">${answerOne}</div></div><div class="row"><div class="answer col-md-12">${answerTwo}</div></div><div class="row"><div class="answer col-md-12">${answerThree}</div></div><div class="row"><div class="answer col-md-12">${answerFour}</div></div></div></div>`;
       return triviaPage;
     },
     // Displays the active clock
     displayTime: (clock) => {
       document.querySelector(DOMstrings.time).textContent = clock;
-
-
+    },
+    //Displays results page after you select an answer.
+    displayResult: (result, answer, image) => {
+      const gamePage = document.querySelector(DOMstrings.gameSection);
+      const rightWrongPage = gamePage.innerHTML = `<div class="answer-page"><h2 class="result">${result}</h2><p>The answer is: <span class="answerKey">${answer}</span></p><div class="image text-center"><img src='${image}' /></div></div >`
+      return rightWrongPage;
     }
   }
   // Display trivia pages
@@ -109,7 +128,6 @@ const appController = ((triviaCtrl, UICtrl) => {
   let allQuestions = triviaCtrl.setQuestions();
   let allAnswers = triviaCtrl.answerKey();
   let currentQuestion = [];
-  let currentAnswer = [];
   const DOM = UICtrl.getDOMstrings();
 
   // Will control the timer countdown element
@@ -127,25 +145,38 @@ const appController = ((triviaCtrl, UICtrl) => {
     }
   };
 
+
+  const getResult = (userAnswer, answerKey, img) => {
+    if (userAnswer === answerKey) {
+      UICtrl.displayResult('Right', answerKey, img) 
+    } else {
+      UICtrl.displayResult('Wrong', answerKey, img)
+    }
+  }
+
   const getQNA = () => {
     intervalID = setInterval(getTime, 1000);
     let randomQuestion = allQuestions[Math.floor(Math.random() * allQuestions.length)]
     currentQuestion.push(randomQuestion);
-    let index = allQuestions.indexOf(randomQuestion);
-    let currentAnswer = allAnswers[index];
-    if (index > -1) {
-      allQuestions.splice(index, 1);
-      allAnswers.splice(index, 1);
+    let i = allQuestions.indexOf(randomQuestion); 
+    let currentAnswer = allAnswers[i];
+    if (i > -1) {
+      allQuestions.splice(i, 1);
+      allAnswers.splice(i, 1);
     }
-    UICtrl.displayQuestions(currentQuestion[0].get(0), currentQuestion[0].get(1), currentQuestion[0].get(2), currentQuestion[0].get(3), currentQuestion[0].get(4), currentQuestion[0].get(5));
+    UICtrl.displayQuestions(currentQuestion[0].get(0), currentQuestion[0].get(1), currentQuestion[0].get(2), currentQuestion[0].get(3), currentQuestion[0].get(4));
     console.log(allAnswers);
     console.log(allQuestions);
     let answerList = document.querySelectorAll(DOM.answer);
-
+    
     answerList.forEach((index, value) => {
       answerList[value].addEventListener('click', () => {
-        console.log(index.innerHTML);
-        console.log(currentAnswer);
+        console.log(triviaCtrl.imageMap()[i])
+        getResult(index.innerHTML, currentAnswer, triviaCtrl.imageMap()[i])
+        count = 0;
+        evalTime();
+        /* console.log(index.innerHTML);
+        console.log(currentAnswer); */
       })
     })
 
@@ -156,8 +187,6 @@ const appController = ((triviaCtrl, UICtrl) => {
     document.querySelector(DOM.startButton).addEventListener('click', () => {
       //Displays questions and answers
       getQNA();
-
-      
     });
 
   };
