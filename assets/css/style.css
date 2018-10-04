@@ -81,12 +81,12 @@ QUESTION/ANSWER PAGE & PRESS START PAGE
   margin: 20px 0;
   
 }
- .answer-one,.answer-two, .answer-three, .answer-four{
+ .answer {
   margin: 10px 0;
   padding: 0;
 }
 
-.answer-one:hover,.answer-two:hover, .answer-three:hover, .answer-four:hover {
+.answer:hover {
   background-color:  #4aaaa5;
   color: #ffffff;
   

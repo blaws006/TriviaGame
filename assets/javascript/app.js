@@ -58,6 +58,10 @@ const triviaController = (() => {
 
       const questions = [questionOne, questionTwo, questionThree, questionFour, questionFive]
       return questions;
+    },
+    answerKey: () => {
+      const answers = ['To Pimp a Butterfly', 'My Hero Acedamia', 'Black Panther', 'Green Bay Packers', 'IT'];
+      return answers;
     }
   }
 })();
@@ -68,10 +72,7 @@ const UIController = (() => {
   // Makes it easier to select an html element by creating a DOMstrings object and making key-value pairs out of classes and id's
   const DOMstrings = {
     startButton: '#press-start',
-    answerOne: '.answer-one',
-    answerTwo: '.answer-two',
-    answerThree: '.answer-three',
-    answerFour: '.answer-four',
+    answer: '.answer',
     img: '.image',
     time: '.time',
     gameSection: '#gameSectionContainer'
@@ -84,12 +85,14 @@ const UIController = (() => {
     //Displays the main question page
     displayQuestions: (question, answerOne, answerTwo, answerThree, answerFour) => {
       const startPage = document.querySelector(DOMstrings.gameSection);
-      const triviaPage = startPage.innerHTML = `<div class="page-two"><div class="text-center"><h4>Time Remaining: <span class="time">90</span></h4><hr></div><div><div class="text-center" id="question"><p>${question}</p></div></div><div class="text-center"><div class="row"><div class="answer-one col-md-12">${answerOne}</div></div><div class="row"><div class="answer-two col-md-12">${answerTwo}</div></div><div class="row"><div class="answer-three col-md-12">${answerThree}</div></div><div class="row"><div class="answer-four col-md-12">${answerFour}</div></div></div></div>`;
+      const triviaPage = startPage.innerHTML = `<div class="page-two"><div class="text-center"><h4>Time Remaining: <span class="time">90</span></h4><hr></div><div><div class="text-center" id="question"><p>${question}</p></div></div><div class="text-center"><div class="row"><div class="answer col-md-12">${answerOne}</div></div><div class="row"><div class="answer col-md-12">${answerTwo}</div></div><div class="row"><div class="answer col-md-12">${answerThree}</div></div><div class="row"><div class="answer col-md-12">${answerFour}</div></div></div></div>`;
       return triviaPage;
     },
     // Displays the active clock
     displayTime: (clock) => {
       document.querySelector(DOMstrings.time).textContent = clock;
+
+
     }
   }
   // Display trivia pages
@@ -104,7 +107,10 @@ const appController = ((triviaCtrl, UICtrl) => {
   let count = 90;
   let intervalID;
   let allQuestions = triviaCtrl.setQuestions();
+  let allAnswers = triviaCtrl.answerKey();
   let currentQuestion = [];
+  let currentAnswer = [];
+  const DOM = UICtrl.getDOMstrings();
 
   // Will control the timer countdown element
   const getTime = () => {
@@ -122,28 +128,43 @@ const appController = ((triviaCtrl, UICtrl) => {
   };
 
   const getQNA = () => {
+    intervalID = setInterval(getTime, 1000);
     let randomQuestion = allQuestions[Math.floor(Math.random() * allQuestions.length)]
     currentQuestion.push(randomQuestion);
-    var index = allQuestions.indexOf(randomQuestion);
+    let index = allQuestions.indexOf(randomQuestion);
+    let currentAnswer = allAnswers[index];
     if (index > -1) {
       allQuestions.splice(index, 1);
+      allAnswers.splice(index, 1);
     }
-    console.log(allQuestions)
+    UICtrl.displayQuestions(currentQuestion[0].get(0), currentQuestion[0].get(1), currentQuestion[0].get(2), currentQuestion[0].get(3), currentQuestion[0].get(4), currentQuestion[0].get(5));
+    console.log(allAnswers);
+    console.log(allQuestions);
+    let answerList = document.querySelectorAll(DOM.answer);
+
+    answerList.forEach((index, value) => {
+      answerList[value].addEventListener('click', () => {
+        console.log(index.innerHTML);
+        console.log(currentAnswer);
+      })
+    })
+
   };
 
   const setupEventListeners = () => {
-    const DOM = UICtrl.getDOMstrings();
+
     document.querySelector(DOM.startButton).addEventListener('click', () => {
-      getQNA();
       //Displays questions and answers
-      UICtrl.displayQuestions(currentQuestion[0].get(0), currentQuestion[0].get(1), currentQuestion[0].get(2), currentQuestion[0].get(3), currentQuestion[0].get(4), currentQuestion[0].get(5));
-      intervalID = setInterval(getTime, 1000);
+      getQNA();
+
+      
     });
+
   };
+
   return {
     init: () => {
       setupEventListeners();
-     
     }
   }
 })(triviaController, UIController);
