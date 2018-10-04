@@ -14,7 +14,7 @@ body {
 }
 
 #header { 
-   margin: 0 auto;
+  margin: 0 auto;
 	max-width: 475px;
 	background-color: #4aaaa5;
 	padding: 20px;
@@ -27,13 +27,14 @@ body {
 	margin: 10px auto;
 	width: 100%;
 	background-color: #ffffff;
-	border: 5px solid #4aaaa5;
+  border: 5px solid #4aaaa5;
+   padding: 20px;
  }
 
-#game-wrapper{
+/* #game-wrapper{
   
-  border: 3px solid #5E7F7E;
-}
+  border: 3px solid #5E7F7E; 
+} */
 
 
 .gameSection {
@@ -81,9 +82,8 @@ QUESTION/ANSWER PAGE & PRESS START PAGE
   
 }
  .answer-one,.answer-two, .answer-three, .answer-four{
-  
   margin: 10px 0;
-  
+  padding: 0;
 }
 
 .answer-one:hover,.answer-two:hover, .answer-three:hover, .answer-four:hover {

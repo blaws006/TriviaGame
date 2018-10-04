@@ -25,7 +25,7 @@ const triviaController = (() => {
       ]);
 
       const questionTwo = new Map([
-        [0, 'Izuku Midoriya is a high school protagonist with "Quirks" in what anime?'],
+        [0, 'Izuku Midoriya is a high school student with "Quirks" in what anime?'],
         [1, 'Fullmetal Alchemist'],
         [2, 'My Hero Acedamia'],
         [3, 'Attack on Titan'],
@@ -82,9 +82,9 @@ const UIController = (() => {
       return DOMstrings;
     },
     //Displays the main question page
-    displayQuestions: () => {
+    displayQuestions: (question, answerOne, answerTwo, answerThree, answerFour) => {
       const startPage = document.querySelector(DOMstrings.gameSection);
-      const triviaPage = startPage.innerHTML = `<div class="page-two"><div class="text-center"><h4>Time Remaining: <span class="time">90</span></h4><hr></div><div><div class="text-center" id="question"><p></p></div></div><div class="text-center"><div class="row"><div class=" answer col-md-12"></div></div><div class="row"><div class="answer col-md-12"></div></div><div class="row"><div class="answer col-md-12"></div></div><div class="row"><div class="answer col-md-12"></div></div></div></div>`;
+      const triviaPage = startPage.innerHTML = `<div class="page-two"><div class="text-center"><h4>Time Remaining: <span class="time">90</span></h4><hr></div><div><div class="text-center" id="question"><p>${question}</p></div></div><div class="text-center"><div class="row"><div class="answer-one col-md-12">${answerOne}</div></div><div class="row"><div class="answer-two col-md-12">${answerTwo}</div></div><div class="row"><div class="answer-three col-md-12">${answerThree}</div></div><div class="row"><div class="answer-four col-md-12">${answerFour}</div></div></div></div>`;
       return triviaPage;
     },
     // Displays the active clock
@@ -103,6 +103,8 @@ const UIController = (() => {
 const appController = ((triviaCtrl, UICtrl) => {
   let count = 90;
   let intervalID;
+  let allQuestions = triviaCtrl.setQuestions();
+  let currentQuestion = [];
 
   // Will control the timer countdown element
   const getTime = () => {
@@ -120,20 +122,28 @@ const appController = ((triviaCtrl, UICtrl) => {
   };
 
   const getQNA = () => {
-    console.log(triviaCtrl.setQuestions()[0].get(0));
+    let randomQuestion = allQuestions[Math.floor(Math.random() * allQuestions.length)]
+    currentQuestion.push(randomQuestion);
+    var index = allQuestions.indexOf(randomQuestion);
+    if (index > -1) {
+      allQuestions.splice(index, 1);
+    }
+    console.log(allQuestions)
   };
 
   const setupEventListeners = () => {
     const DOM = UICtrl.getDOMstrings();
     document.querySelector(DOM.startButton).addEventListener('click', () => {
-      UICtrl.displayQuestions();
+      getQNA();
+      //Displays questions and answers
+      UICtrl.displayQuestions(currentQuestion[0].get(0), currentQuestion[0].get(1), currentQuestion[0].get(2), currentQuestion[0].get(3), currentQuestion[0].get(4), currentQuestion[0].get(5));
       intervalID = setInterval(getTime, 1000);
     });
   };
   return {
     init: () => {
       setupEventListeners();
-      getQNA();
+     
     }
   }
 })(triviaController, UIController);
