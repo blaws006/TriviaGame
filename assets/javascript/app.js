@@ -105,9 +105,9 @@ const UIController = (() => {
       return rightWrongPage;
     },
     // Dislpay final tally
-    displayLastPage: (right, wrong) => {
-      const resultPage = gamePage.innerHTML = `<div class="page-three"><div class="text-center"><h2>Results</h2><hr><div class="text-center"><p>Questions Right: <span class="right">${right}</span></p><p>Questions Wrong: <span class="wrong">${wrong}</span></p></div><div class="cta text-center"><button class="text-center button-style btn btn-primary btn-lg press-start" type="submit">Play Again</button></div></div></div>`;
-      return resultPage;
+    displayScore: (right, wrong) => {
+      const scorePage = gamePage.innerHTML = `<div class="page-three"><div class="text-center"><h2>Results</h2><hr><div class="text-center"><p>Questions Right: <span class="right">${right}</span></p><p>Questions Wrong: <span class="wrong">${wrong}</span></p></div><div class="cta text-center"><button class="text-center button-style btn btn-primary btn-lg press-start" type="submit">Play Again</button></div></div></div>`;
+      return scorePage;
     }
   }
 })();
