@@ -104,6 +104,7 @@ RIGHT/WRONG PAGE
 .image img {
   margin: 0 auto;
   max-width: 350px;
+  width: 100%;
 }
 
 

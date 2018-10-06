@@ -81,7 +81,8 @@ const UIController = (() => {
     gameSection: '#gameSectionContainer',
     answerKey: '.answerKey',
     answerPage: '.answer-page',
-    image: '.image'
+    image: '.image',
+    reset: '.reset'
   }
 
   let gamePage = document.querySelector(DOMstrings.gameSection);
@@ -116,10 +117,10 @@ const UIController = (() => {
 const appController = ((triviaCtrl, UICtrl) => {
   let count = 90;
   let intervalID;
-  let allQuestions;
-  let allAnswers;
+  let allImages = triviaCtrl.imageMap();
+  let allQuestions = triviaCtrl.setQuestions();
+  let allAnswers = triviaCtrl.answerKey();
   let currentQuestion = [];
-  let allImages;
   const DOM = UICtrl.getDOMstrings();
   let right = 0;
   let wrong = 0;
@@ -149,7 +150,16 @@ const appController = ((triviaCtrl, UICtrl) => {
       wrong++;
     }
   }
-
+  const reset = () => {
+    document.querySelector(DOM.startButton).addEventListener('click', () => {
+      right = 0;
+      wrong = 0;
+      allImages = triviaCtrl.imageMap();
+      allQuestions = triviaCtrl.setQuestions();
+      allAnswers = triviaCtrl.answerKey();
+      getQNA();
+    });
+  }
   const getQNA = () => {
     if (allAnswers.length > 0) {
       count = 90;
@@ -166,8 +176,6 @@ const appController = ((triviaCtrl, UICtrl) => {
       }
 
       UICtrl.displayQuestions(currentQuestion[0].get(0), currentQuestion[0].get(1), currentQuestion[0].get(2), currentQuestion[0].get(3), currentQuestion[0].get(4));
-      console.log(allAnswers);
-      console.log(allQuestions);
       let answerList = document.querySelectorAll(DOM.answer);
 
       answerList.forEach((index, value) => {
@@ -177,23 +185,20 @@ const appController = ((triviaCtrl, UICtrl) => {
           count = 0;
           evalTime();
           currentQuestion.pop(randomQuestion);
-          /* console.log(index.innerHTML);
-          console.log(currentAnswer); */
+         
         })
       })
     } else {
-      UICtrl.displayLastPage(right, wrong);
+      UICtrl.displayScore(right, wrong);
+      
+      reset();
     }
   };
 
   const setupEventListeners = () => {
 
-    document.querySelector(DOM.startButton).addEventListener('click', () => {
-     
-      allImages = triviaCtrl.imageMap();
-      allQuestions = triviaCtrl.setQuestions();
-      allAnswers = triviaCtrl.answerKey();
-      console.log(allImages)
+    document.querySelector(DOM.startButton).addEventListener('click', () =>{
+      
       //Displays questions and answers
       getQNA();
     });
