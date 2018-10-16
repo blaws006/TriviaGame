@@ -93,7 +93,7 @@ const UIController = (() => {
     },
     //Displays the main question page
     displayQuestions: (question, answerOne, answerTwo, answerThree, answerFour) => {
-      const triviaPage = gamePage.innerHTML = `<div class="page-two"><div class="text-center"><h4>Time Remaining: <span class="time">90</span></h4><hr></div><div><div class="text-center" id="question"><p>${question}</p></div></div><div class="text-center"><div class="row"><div class="answer col-md-12">${answerOne}</div></div><div class="row"><div class="answer col-md-12">${answerTwo}</div></div><div class="row"><div class="answer col-md-12">${answerThree}</div></div><div class="row"><div class="answer col-md-12">${answerFour}</div></div></div></div>`;
+      const triviaPage = gamePage.innerHTML = `<div class="page-two"><div class="text-center"><h4>Time Remaining: <span class="time">30</span></h4><hr></div><div><div class="text-center" id="question"><p>${question}</p></div></div><div class="text-center"><div class="row"><div class="answer col-md-12">${answerOne}</div></div><div class="row"><div class="answer col-md-12">${answerTwo}</div></div><div class="row"><div class="answer col-md-12">${answerThree}</div></div><div class="row"><div class="answer col-md-12">${answerFour}</div></div></div></div>`;
       return triviaPage;
     },
     // Displays the active clock
@@ -115,12 +115,15 @@ const UIController = (() => {
 
 // App Controller
 const appController = ((triviaCtrl, UICtrl) => {
-  let count = 90;
   let intervalID;
+  let count;
   let allImages = triviaCtrl.imageMap();
   let allQuestions = triviaCtrl.setQuestions();
   let allAnswers = triviaCtrl.answerKey();
   let currentQuestion = [];
+  let currentAnswer;
+  let currentImage;
+  let randomQuestion;
   const DOM = UICtrl.getDOMstrings();
   let right = 0;
   let wrong = 0;
@@ -135,21 +138,31 @@ const appController = ((triviaCtrl, UICtrl) => {
   // Will evaluate conditions on when to stop the clock
   const evalTime = () => {
     if (count === 0) {
-      clearInterval(intervalID);
+      getResult('Wrong', currentAnswer, currentImage);
     }
   };
 
+  //
+  const stop = () => {
+    clearInterval(intervalID);
+  };
+  // Tallys a right or wrong answer pending the scenario
   const getResult = (userAnswer, answerKey, img) => {
     if (userAnswer === answerKey) {
       UICtrl.displayResult('Right', answerKey, img);
       setTimeout(getQNA, 5000);
       right++;
-    } else {
-      UICtrl.displayResult('Wrong', answerKey, img)
+      stop();
+      currentQuestion.pop(randomQuestion);
+    } else if (userAnswer !== answerKey) {
+      UICtrl.displayResult('Wrong', answerKey, img);
       setTimeout(getQNA, 5000);
       wrong++;
+      stop();
+      currentQuestion.pop(randomQuestion);
     }
-  }
+  };
+
   const reset = () => {
     document.querySelector(DOM.startButton).addEventListener('click', () => {
       right = 0;
@@ -159,46 +172,46 @@ const appController = ((triviaCtrl, UICtrl) => {
       allAnswers = triviaCtrl.answerKey();
       getQNA();
     });
-  }
+  };
+/* Controls:
+1. Time - both display and increments
+2. Random question generator
+3. Generating questions and answers on q page
+4. Evaluating right or wrong answer -- and displaying proper page
+5. Displaying end game result page */
   const getQNA = () => {
     if (allAnswers.length > 0) {
-      count = 90;
+      count = 30;
       intervalID = setInterval(getTime, 1000);
-      let randomQuestion = allQuestions[Math.floor(Math.random() * allQuestions.length)]
+      randomQuestion = allQuestions[Math.floor(Math.random() * allQuestions.length)]
       currentQuestion.push(randomQuestion);
       let i = allQuestions.indexOf(randomQuestion);
-      let currentAnswer = allAnswers[i];
-      let currentImage = allImages[i];
+      currentAnswer = allAnswers[i];
+      currentImage = allImages[i];
+
       if (i > -1) {
         allQuestions.splice(i, 1);
         allAnswers.splice(i, 1);
         allImages.splice(i, 1);
-      }
+      };
 
       UICtrl.displayQuestions(currentQuestion[0].get(0), currentQuestion[0].get(1), currentQuestion[0].get(2), currentQuestion[0].get(3), currentQuestion[0].get(4));
-      let answerList = document.querySelectorAll(DOM.answer);
 
+      let answerList = document.querySelectorAll(DOM.answer);
       answerList.forEach((index, value) => {
         answerList[value].addEventListener('click', () => {
-
-          getResult(index.innerHTML, currentAnswer, currentImage)
-          count = 0;
-          evalTime();
-          currentQuestion.pop(randomQuestion);
-         
+          getResult(index.innerHTML, currentAnswer, currentImage);
         })
       })
     } else {
       UICtrl.displayScore(right, wrong);
-      
       reset();
     }
   };
 
   const setupEventListeners = () => {
 
-    document.querySelector(DOM.startButton).addEventListener('click', () =>{
-      
+    document.querySelector(DOM.startButton).addEventListener('click', () => {
       //Displays questions and answers
       getQNA();
     });
@@ -209,7 +222,7 @@ const appController = ((triviaCtrl, UICtrl) => {
     init: () => {
       setupEventListeners();
     }
-  }
+  };
 })(triviaController, UIController);
 
 appController.init();
