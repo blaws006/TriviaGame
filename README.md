@@ -1,4 +1,4 @@
-# Trivia Game (Under Construction)
+# Trivia Game
 
 ![Trivia Game](https://media.giphy.com/media/xUOwFW4SZvs60KX0mA/giphy.gif)
 
